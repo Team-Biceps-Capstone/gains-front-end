@@ -3,3 +3,22 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.general-button{
+    background-color: #517EC1; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.general-button:hover {
+    background-color: #003165; /* Green */
+  }

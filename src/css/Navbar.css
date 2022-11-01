@@ -55,13 +55,17 @@ nav a:hover {
 .nav-logo {
     height: 50px;
     width: 50px;
+    
 }
 
 .burger {
     cursor: pointer;
     display: block;
-    margin-right: 20px;
+    margin-right: 200px;
     z-index: 1;
+    position: absolute;
+    top: 25px;
+    right: 0px;
 }
 
 .burger div {
@@ -70,6 +74,7 @@ nav a:hover {
     background-color: #B5B5B5;
     margin: 5px;
     transition: all 0.3s ease;
+  
 }
 
 .toggle .line1 {

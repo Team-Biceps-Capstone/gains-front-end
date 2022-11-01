@@ -1,40 +1,39 @@
 //CITATION YOUTUBE TUTORIAL: THE NET NINJA, "MERN Authentiation Tuturial", 2022
+import { useState } from "react"
+import { useSignup } from "../hooks/useSignup"
 
-import { useState} from "react"
-import { useLogin } from "../hooks/useLogin"
-
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {login, error, isLoading} = useLogin()
- 
+  const {signup, error, isLoading} = useSignup()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await login(email, password)
+
+    await signup(email, password)
   }
- 
+
   return (
-    <form id="login" className="login" onSubmit={handleSubmit}>
-      <h3>Log In</h3>
+    <form className="signup" onSubmit={handleSubmit}>
+      <h3>Sign Up</h3>
       
       <label>Email address:</label>
       <input 
         type="email" 
         onChange={(e) => setEmail(e.target.value)} 
         value={email} 
-       
       />
       <label>Password:</label>
       <input 
         type="password" 
         onChange={(e) => setPassword(e.target.value)} 
-        value={password}
+        value={password} 
       />
 
-      <button disabled={isLoading} >Log in</button>
+      <button disabled={isLoading}>Sign up</button>
       {error && <div className="error">{error}</div>}
     </form>
   )
 }
 
-export default Login
+export default Signup

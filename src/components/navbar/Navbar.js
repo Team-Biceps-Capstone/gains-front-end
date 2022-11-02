@@ -30,12 +30,12 @@ const Navbar = () => {
         </div>
                 
         <div className={isNavExpanded ? "nav-links-box" : "nav-links-hidden"}>
-             <div className='nav-links-box'>
+            <div className='nav-links-box'>
                 {user && (
                     <div onClick={() => {setIsNavExpanded(!isNavExpanded)}}> 
                         <span>{user.email}</span> 
                         <button onClick={handleClick}>Log out</button>
-                        
+
                     <div className='nav-links'  onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
                         <Link to="/">
                             <div>Home</div>
@@ -68,8 +68,8 @@ const Navbar = () => {
                     </div>
                 )}
             </div>
-            </div>
-            </div>
+        </div>
+      </div>
            
 
            

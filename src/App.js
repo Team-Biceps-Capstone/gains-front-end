@@ -4,6 +4,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "./css/App.css";
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
+import ConfirmPassword from "./components/ConfirmPassword";
 
 // Pages
 import Home from "./pages/Home";
@@ -14,12 +15,14 @@ import Signup from "./pages/Signup";
 import Logout from "./pages/Logout"
 
 
+
 function App() {
   const { user } = useAuthContext()
   return (
     <Router>
       <div className="App">
         <Navbar/>
+        
         <Routes>
           <Route path="/" element={<Home/>}> </Route>
           <Route path="/about" element={<About/>}> </Route>

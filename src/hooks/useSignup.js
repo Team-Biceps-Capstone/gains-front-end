@@ -8,16 +8,25 @@ export const useSignup = () => {
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
 
-  const signup = async (email, password) => {
+  const signup = async (name, email, password, password2, city, state, zip) => {
+   
+    //check if passwords match
+    if (password !== password2) {
+      console.error("password must match")
+      return setError("password must match"); 
+    } 
+
     setIsLoading(true)
     setError(null)
-
+    
     const response = await fetch('/api/user/signup', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({name, email, password, city, state, zip }),
     })
     const json = await response.json()
+    
+  
 
     if (!response.ok) {
       setIsLoading(false)
@@ -34,6 +43,7 @@ export const useSignup = () => {
       setIsLoading(false)
     }
   }
+
 
   return { signup, isLoading, error }
 }

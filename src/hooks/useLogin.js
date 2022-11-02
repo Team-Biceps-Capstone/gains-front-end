@@ -15,7 +15,7 @@ export const useLogin = () => {
     const response = await fetch('/api/user/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({email, password })
     })
     const json = await response.json()
 
@@ -25,6 +25,7 @@ export const useLogin = () => {
     }
     if (response.ok) {
       // save the user to local storage
+      console.log('LOOOOOOGGG', json)
       localStorage.setItem('user', JSON.stringify(json))
 
       // update the auth context

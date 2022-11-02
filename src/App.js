@@ -4,7 +4,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "./css/App.css";
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
-import ConfirmPassword from "./components/ConfirmPassword";
 
 // Pages
 import Home from "./pages/Home";
@@ -22,7 +21,6 @@ function App() {
     <Router>
       <div className="App">
         <Navbar/>
-        
         <Routes>
           <Route path="/" element={<Home/>}> </Route>
           <Route path="/about" element={<About/>}> </Route>

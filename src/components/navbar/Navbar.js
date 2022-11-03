@@ -1,63 +1,82 @@
-import React, {Component} from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { useLogout } from '../../hooks/useLogout'
+import { useAuthContext } from '../../hooks/useAuthContext'
+import logo from '../../images/logo.png'
 import '../../css/Navbar.css';
-import logo from '../../images/logo.png';
+import { React, useState } from 'react';
 
+const Navbar = () => {
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
+  const [isNavExpanded, setIsNavExpanded] = useState(false)
 
-export default class Navbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isNavToggled: false };
-        this.handleNavToggle = this.handleNavToggle.bind(this);
-      }
+  //on click Logout
+  const handleClick = () => {
+    logout()
+  }
 
-    handleNavToggle(logo) {
-        if (logo && !this.state.isNavToggled){
-            return
-        }
+ 
+  return (
+    <nav>
+      <div className="container" >
+        <Link to="/">
+        <img alt='logo' className='nav-logo' src={logo} />
+        </Link>
+        <div className="website-title"> Gains </div>
+        <div className="burger"  onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
+            <div className="line1"></div>
+            <div className="line2"></div>
+            <div className="line3"></div>
+        </div>
+                
+        <div className={isNavExpanded ? "nav-links-box" : "nav-links-hidden"}>
+            <div className='nav-links-box'>
+                {user && (
+                    <div onClick={() => {setIsNavExpanded(!isNavExpanded)}}> 
+                        <span>{user.email}</span> 
+                        <button onClick={handleClick}>Log out</button>
 
-        this.setState(prevState => ({
-            isNavToggled: !prevState.isNavToggled
-        }));
-        const burger = document.querySelector(".burger");
-        burger.classList.toggle("toggle");
-    }
-
-    render() {
-        return (
-            <nav>
-                <div className='logo'>
-                    <Link to="/">
-                        <img alt='logo' className='nav-logo' src={logo} onClick={() => this.handleNavToggle(true)} />
-                    </Link>
-                </div>
-                <div className="website-title">
-                    Gains
-                </div>
-                <div className={this.state.isNavToggled ? "nav-links-box" : "nav-links-hidden"}>
-                    <div className='nav-links'>
+                    <div className='nav-links'  onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
                         <Link to="/">
-                            <div onClick= {() => this.handleNavToggle(false)}>Home</div>
+                            <div>Home</div>
                         </Link>
                         <Link to="/about">
-                            <div onClick= {() => this.handleNavToggle(false)}>About Us</div>
+                            <div>About Us</div>
                         </Link>
                         <Link to="/challenge">
-                            <div onClick= {() => this.handleNavToggle(false)}>Challenges</div>
+                            <div>Challenges</div>
+                        </Link>
+                       
+                    </div>
+                    </div>
+                )}
+                
+                {!user && (
+                    <div className='nav-links' onClick={() => {setIsNavExpanded(!isNavExpanded)}}>
+                        <Link to="/">
+                            <div>Home</div>
+                        </Link>
+                        <Link to="/about">
+                            <div>About Us</div>
                         </Link>
                         <Link to="/login">
-                            <div onClick= {() => this.handleNavToggle(false)}>Sign In / Register</div>
+                            <div>Login</div>
+                        </Link>
+                        <Link to="/signup">
+                            <div>Signup</div>
                         </Link>
                     </div>
-                </div>
-                <div className="burger" onClick = {() => this.handleNavToggle(false)}>
-                    <div className="line1"></div>
-                    <div className="line2"></div>
-                    <div className="line3"></div>
-                </div>
+                )}
+            </div>
+        </div>
+      </div>
+           
 
-            </nav>
-        )
+           
+     
+      </nav>
     
-  }
+  )
 }
+
+export default Navbar

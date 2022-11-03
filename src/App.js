@@ -13,23 +13,21 @@ import Challenge from "./pages/Challenge";
 import Signup from "./pages/Signup";
 import Logout from "./pages/Logout"
 
-
-
 function App() {
   const { user } = useAuthContext()
   return (
     <Router>
-      <div className="App">
-        <Navbar/>
-        <Routes>
-          <Route path="/" element={<Home/>}> </Route>
-          <Route path="/about" element={<About/>}> </Route>
-          <Route path="/challenge" element={user ? <Challenge/> : <Navigate to="/"/>}> </Route>
-          <Route path="/login" element={user ? <Navigate to="/challenge"/> : <Login/>}> </Route>
-          <Route path="/signup" element={user ? <Navigate to="/challenge"/> : <Signup/>}> </Route>
-          <Route path="/logout" element={<Logout/>}> </Route>
-        </Routes>
-      </div>
+        <div className="App">
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Home/>}> </Route>
+            <Route path="/about" element={<About/>}> </Route>
+            <Route path="/challenge" element={user ? <Challenge/> : <Navigate to="/"/>}> </Route>
+            <Route path="/login" element={user ? <Navigate to="/challenge"/> : <Login/>}> </Route>
+            <Route path="/signup" element={user ? <Navigate to="/challenge"/> : <Signup/>}> </Route>
+            <Route path="/logout" element={<Logout/>}> </Route>
+          </Routes>
+        </div>
     </Router>
   );
 }

@@ -14,20 +14,31 @@ export default class Challenge extends Component {
       challengeTags: "",
       challengeGoals: [],
       constantChallenges: [],
+      displayChallenges: []
     };
     
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
+    this.getDisplayChallenge = this.getDisplayChallenge.bind(this);
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:4000/constants/challenges`)
+    axios.post(`/constant`, {"name" : "challenges"})
       .then(res => {
-        console.log(res.data)
         const constantChallenges = res.data.challenges;
         this.setState({ constantChallenges });
       })
+      
+    this.getDisplayChallenge();
+  }
+
+  getDisplayChallenge = () => {
+    axios.get(`/challenge/display`)
+    .then(res => {
+      const displayChallenges = res.data;
+      this.setState({ displayChallenges });
+    })
   }
 
   handleSubmit = event => {
@@ -41,10 +52,11 @@ export default class Challenge extends Component {
       goals: this.state.challengeGoals
     };
     
-    axios.post(`http://localhost:4000/challenge`, req)
+    axios.post(`/challenge`, req)
       .then(res => {
         this.handleClearForm();
         this.handleCloseModal();
+        this.getDisplayChallenge();
         console.log(res);
         console.log(res.data);
       })
@@ -83,15 +95,12 @@ export default class Challenge extends Component {
   }
   
   handleCloseModal () {
-    this.setState({ showModal: false , challengeTitle: "", challengeDescription: ""});
+    this.setState({ showModal: false });
   }
 
   handleClearForm () {
-    this.setState({ challengeTags: "", challengeTitle: "", challengeDescription: ""});
+    this.setState({ challengeTags: "", challengeTitle: "", challengeDescription: "", challengeGoals: [],});
   }
-
-  
-
 
   render() {
     return (
@@ -102,10 +111,12 @@ export default class Challenge extends Component {
         <button className='general-button'>My Challenges</button>
         <button className='general-button'>Wall of Fame</button>
         <button className='general-button' onClick={this.handleOpenModal}>Create Challenge</button>
+        <br></br>
+        <pre>{this.state.displayChallenges.map((json) => JSON.stringify(json, undefined, 2))}</pre>
         <Modal 
            isOpen={this.state.showModal}
            onRequestClose={this.handleCloseModal}
-           shouldCloseOnOverlayClick={false}
+           shouldCloseOnOverlayClick={true}
            ariaHideApp={false}
         >
           <div className='modal-header'>

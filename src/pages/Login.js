@@ -18,18 +18,20 @@ const Login = () => {
       <h3>Log In</h3>
       
       <label>Email address:</label>
+      <div>
       <input 
         type="email" 
         onChange={(e) => setEmail(e.target.value)} 
         value={email} 
-       
-      />
+      /></div><br/>
+
       <label>Password:</label>
+      <div>
       <input 
         type="password" 
         onChange={(e) => setPassword(e.target.value)} 
         value={password}
-      />
+      /></div><br/>
 
       <button disabled={isLoading} >Log in</button>
       {error && <div className="error">{error}</div>}

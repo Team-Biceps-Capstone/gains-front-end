@@ -9,6 +9,9 @@ export const useSignup = () => {
   const { dispatch } = useAuthContext()
 
   const signup = async (name, email, password, password2, city, state, zip) => {
+
+    //Using dropdown box, state is an object with values and labels, we only need value
+    state = state.value
    
     //check if passwords match
     if (password !== password2) {
@@ -26,8 +29,6 @@ export const useSignup = () => {
     })
     const json = await response.json()
     
-  
-
     if (!response.ok) {
       setIsLoading(false)
       setError(json.error)

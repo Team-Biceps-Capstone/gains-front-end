@@ -7,12 +7,13 @@ export const useSignup = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
   const { dispatch } = useAuthContext()
-
-  const signup = async (name, email, password, password2, city, state, zip) => {
-
+  
+  const signup = async (name, email, password, password2, city, state, zip, favorites, inProgress, completed, badges) => {
+ 
     //Using dropdown box, state is an object with values and labels, we only need value
     state = state.value
    
+
     //check if passwords match
     if (password !== password2) {
       console.error("password must match")
@@ -25,7 +26,7 @@ export const useSignup = () => {
     const response = await fetch('/api/user/signup', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({name, email, password, city, state, zip }),
+        body: JSON.stringify({name, email, password, city, state, zip, favorites, inProgress, completed, badges}),
     })
     const json = await response.json()
     
@@ -46,5 +47,5 @@ export const useSignup = () => {
   }
 
 
-  return { signup, isLoading, error }
+  return { signup, isLoading, error}
 }

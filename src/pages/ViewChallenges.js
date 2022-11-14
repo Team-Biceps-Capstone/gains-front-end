@@ -16,12 +16,14 @@ export default class Challenge extends Component {
       challengeGoals: [],
       constantChallenges: [],
       displayChallenges: [],
+      viewChallenges: []   //added
     };
     
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
     this.getDisplayChallenge = this.getDisplayChallenge.bind(this);
+    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this); //added
   }
 
   componentDidMount() {
@@ -32,6 +34,8 @@ export default class Challenge extends Component {
       })
       
     this.getDisplayChallenge();
+    this.viewDisplayChallenge();
+
   }
 
   getDisplayChallenge = () => {
@@ -42,6 +46,25 @@ export default class Challenge extends Component {
       this.setState({ displayChallenges });
     })
   }
+
+  //added 
+  viewDisplayChallenge = () => {
+    let Bearertoken = JSON.parse(window.localStorage.getItem('user')).token
+    axios.get(`api/user/view`,{
+      headers: {
+        'Authorization': `Bearer ${Bearertoken}`
+    }
+    })
+    .then(res => {
+      const viewChallenges = res.data;
+      console.log(viewChallenges)
+      //JSON.stringify(viewChallenges)
+      this.setState({ viewChallenges });
+    })
+  }
+  
+
+
 
 
   handleSubmit = event => {
@@ -121,11 +144,54 @@ export default class Challenge extends Component {
         <button className='general-button' onClick={this.handleOpenModal}>Create Challenge</button>
         <br></br>
 
-        <pre>{this.state.displayChallenges.map((json) => JSON.stringify(json, undefined, 2))}</pre>
-        
+        <div><br/><br/>
+        {this.state.viewChallenges.map((json) => (
+            <div key={json._id} style={{
+              display: "flex",
+              justifyContent: "space-around",
+              width: "30%",
+              height: "700px"
+              
 
+            }}>
+              
+              <div>
+              <p>Image</p>
+                <img src={json.image}/>
+              <p>Badge</p>
+                <p>{json.badges}</p>
+              </div>
 
+              <div>
+              <button className='general-button'>Favorite</button>
+
+              <p>Name: {json.name}</p>
+                
+              <p>Challenge: {json.challenge}</p>
+              
+              <p> Tags:
+                {json.tags.map((item, index) => <li key={index}>{item}</li>)}
+              </p>
+
+              <p>Description: {json.description} </p>
+              
+              <p> Goals:
+                {json.goals.map((item, index) => <li key={index}>{item}</li>)}
+              </p>
+
+              </div>
+           
+                       
+        </div>
         
+        
+        ))} 
+     
+
+        </div>  
+        
+        
+      
         <Modal 
            isOpen={this.state.showModal}
            onRequestClose={this.handleCloseModal}

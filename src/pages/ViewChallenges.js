@@ -8,6 +8,7 @@ export default class Challenge extends Component {
     this.state = {
       viewChallenges: [], //added
     };
+    
     this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this); //added
   }
 

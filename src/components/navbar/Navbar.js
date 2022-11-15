@@ -78,7 +78,6 @@ const Navbar = () => {
         <div className="line2"></div>
         <div className="line3"></div>
       </div>
-
       <div className={isNavExpanded ? "nav-links-box" : "nav-links-hidden"}>
         <div className="nav-links-box">
           {user && (

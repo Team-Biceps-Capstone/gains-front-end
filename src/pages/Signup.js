@@ -88,7 +88,7 @@ const Signup = () => {
       /></div><br/>
 
 
-      <button disabled={isLoading}>Sign up</button><br/>
+      <button className='general-button' disabled={isLoading}>Sign up</button><br/>
       {error!=="password must match" && <div className="error">{error}</div>}
     </form>
   )

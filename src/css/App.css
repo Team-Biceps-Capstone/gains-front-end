@@ -2,8 +2,8 @@ html,
 body {
     margin: 0;
     padding: 0;
+    background-color: #D9D9D9;
 }
-
 
 .general-button{
     background-color: #517EC1; /* Green */
@@ -23,3 +23,11 @@ body {
 .general-button:hover {
     background-color: #003165; /* Green */
  }
+
+.loading-spinner{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

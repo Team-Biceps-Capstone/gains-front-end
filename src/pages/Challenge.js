@@ -17,6 +17,7 @@ export default class Challenge extends Component {
   constructor() {
     super();
     this.state = {
+      userID: "",
       showModal: false,
       challengeTitle: "",
       challengeDescription: "",
@@ -40,6 +41,7 @@ export default class Challenge extends Component {
     this.handleSetImage = this.handleSetImage.bind(this);
     this.handleFilterBySearch = this.handleFilterBySearch.bind(this);
     this.handleClearSearchBar = this.handleClearSearchBar.bind(this);
+    this.handleUserFavorite = this.handleUserFavorite.bind(this);
     this.getDisplayChallenge = this.getDisplayChallenge.bind(this);
     this.getConstantChallenges = this.getConstantChallenges.bind(this);
   }
@@ -48,6 +50,8 @@ export default class Challenge extends Component {
     this.getConstantChallenges();
     this.getConstantBadges();
     this.getDisplayChallenge();
+    const userID = JSON.parse(localStorage.getItem("user"))._id;
+    this.setState({ userID });
   }
 
   getConstantChallenges = () => {
@@ -66,7 +70,7 @@ export default class Challenge extends Component {
 
   getDisplayChallenge = () => {
     axios.get(`/challenge/display`).then((res) => {
-      const displayChallenges = res.data;
+      const displayChallenges = res.data.reverse();
       this.setState({
         displayChallenges,
         originalDisplayChallenges: displayChallenges,
@@ -88,6 +92,7 @@ export default class Challenge extends Component {
       goals: this.state.challengeGoals,
       image: this.state.challengeImage,
       badge: this.state.badge.name,
+      createdBy: this.state.userID,
     };
 
     axios.post(`/challenge`, req).then((res) => {
@@ -193,6 +198,17 @@ export default class Challenge extends Component {
     this.setState({ searchBar: event.target.value });
   };
 
+  handleUserFavorite() {
+    const newDisplayChallenges = JSON.parse(
+      JSON.stringify(this.state.originalDisplayChallenges)
+    );
+    this.setState({
+      displayChallenges: newDisplayChallenges
+        .sort((a, b) => b.favorites - a.favorites)
+        .slice(0, 5),
+    });
+  }
+
   handleFilterBySearch() {
     const searchArray = this.state.searchBar
       .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
@@ -258,7 +274,12 @@ export default class Challenge extends Component {
             </button>
           </div>
           <div>
-            <button className="general-button">User Favorites</button>
+            <button
+              className="general-button"
+              onClick={this.handleUserFavorite}
+            >
+              User Favorites
+            </button>
             <button
               className="general-button"
               onClick={(event) => (window.location.href = "/viewProgress")}

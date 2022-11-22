@@ -1,4 +1,38 @@
 .about{
     height: 90vh;
     width:100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
+
+.about-message{
+    width: 40vw;
+    font-size: 30px;
+}
+
+.about-image{
+    height: 40vw;
+    width: 40vw;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+@media only screen and (max-width: 800px) {
+    .about {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .about-message{
+        width: 80vw;
+        font-size: 20px;
+    }
+
+    .about-image{
+        height: 70vw;
+        width: 70vw;
+        border-radius: 15px;
+    } 
+  }

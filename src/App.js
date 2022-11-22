@@ -29,7 +29,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />}>
+          <Route path="/" element={<Home user={user2} />}>
             {" "}
           </Route>
           <Route path="/about" element={<About />}>
@@ -49,15 +49,12 @@ function App() {
             {" "}
           </Route>
 
-
           <Route
             path="/viewProgress"
             element={user2 ? <ViewProgress /> : <Navigate to="/" />}
           >
             {" "}
           </Route>
-
-
 
           <Route
             path="/login"

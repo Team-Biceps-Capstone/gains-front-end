@@ -6,11 +6,11 @@ export default class ViewChallenges extends Component {
   constructor() {
     super();
     this.state = {
-      viewProgress: [], 
-      userId: JSON.parse(window.localStorage.getItem("user"))._id
+      viewProgress: [],
+      userId: JSON.parse(window.localStorage.getItem("user"))._id,
     };
-    
-    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this); 
+
+    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this);
     this.updateFavorites = this.updateFavorites.bind(this);
     this.updateUnfavorites = this.updateUnfavorites.bind(this);
   }
@@ -21,40 +21,34 @@ export default class ViewChallenges extends Component {
     this.updateUnfavorites();
   }
 
-
   viewDisplayChallenge = () => {
-    axios.get(`challenge/${this.state.userId}/myChallenges`)
-      .then((res) => {
-        const viewProgress = res.data;
-        this.setState({ viewProgress});
-      });
+    axios.get(`challenge/${this.state.userId}/myChallenges`).then((res) => {
+      const viewProgress = res.data;
+      this.setState({ viewProgress });
+    });
   };
 
-
-  
   updateFavorites = (challengeID) => {
-    if (challengeID){
-    axios
-      .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
-      .then((res) => {
-        console.log('added')
-        window.location.reload(false)
-      })
-  }
-}
-
+    if (challengeID) {
+      axios
+        .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
+        .then((res) => {
+          console.log("added");
+          window.location.reload(false);
+        });
+    }
+  };
 
   updateUnfavorites = (challengeID) => {
-    if (challengeID){
-    axios
-      .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
-      .then((res) => {
-        console.log('unadded')
-        window.location.reload(false)
-      })
-  }
-}
-
+    if (challengeID) {
+      axios
+        .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
+        .then((res) => {
+          console.log("unadded");
+          window.location.reload(false);
+        });
+    }
+  };
 
   render() {
     return (
@@ -90,16 +84,31 @@ export default class ViewChallenges extends Component {
                 />
                 <p>Badge</p>
                 <p>{json.badges}</p>
-               
               </div>
 
               <div>
-
                 <div>
-                {JSON.stringify(this.state.userId) === JSON.stringify(json.favoritedBy.filter((val) => val.includes(`${this.state.userId}`))[0])
-                ? <button className="general-button" onClick={(e) => this.updateUnfavorites(json._id, e)}>Unfavorite</button>
-                : <button className="general-button" onClick={(e) => this.updateFavorites(json._id, e)}> Favorite </button>
-                }
+                  {JSON.stringify(this.state.userId) ===
+                  JSON.stringify(
+                    json.favoritedBy.filter((val) =>
+                      val.includes(`${this.state.userId}`)
+                    )[0]
+                  ) ? (
+                    <button
+                      className="general-button"
+                      onClick={(e) => this.updateUnfavorites(json._id, e)}
+                    >
+                      Unfavorite
+                    </button>
+                  ) : (
+                    <button
+                      className="general-button"
+                      onClick={(e) => this.updateFavorites(json._id, e)}
+                    >
+                      {" "}
+                      Favorite{" "}
+                    </button>
+                  )}
                 </div>
 
                 <p>Name: {json.name}</p>

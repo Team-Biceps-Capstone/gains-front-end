@@ -26,6 +26,7 @@ export default class Challenge extends Component {
       challengeImage: "",
       challengeThumbnail: "",
       badge: noneBadge,
+      createdBy: "",
       constantBadges: [],
       constantChallenges: [],
       displayChallenges: null,
@@ -155,6 +156,7 @@ export default class Challenge extends Component {
       challengeImage: "",
       challengeThumbnail: "",
       challengeImageId: "",
+      createdBy: "",
     });
     this.resetForms();
   }
@@ -257,6 +259,13 @@ export default class Challenge extends Component {
           </div>
           <div>
             <button className="general-button">User Favorites</button>
+            <button
+              className="general-button"
+              onClick={(event) => (window.location.href = "/viewProgress")}
+            >
+              My Progress
+            </button>
+
             <button
               className="general-button"
               onClick={(event) => (window.location.href = "/viewChallenges")}

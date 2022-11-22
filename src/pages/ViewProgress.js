@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/Challenge.css";
 import axios, { HttpStatusCode } from "axios";
 
-export default class ViewChallenges extends Component {
+export default class ViewProgress extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,19 +19,24 @@ export default class ViewChallenges extends Component {
     this.viewDisplayChallenge();
     this.updateFavorites();
     this.updateUnfavorites();
+  
   }
 
-
   viewDisplayChallenge = () => {
-    axios.get(`challenge/${this.state.userId}/myChallenges`)
+    let Bearertoken = JSON.parse(window.localStorage.getItem("user")).token;
+    axios
+      .get(`api/user/view`, {
+        headers: {
+          Authorization: `Bearer ${Bearertoken}`,
+        },
+      })
       .then((res) => {
         const viewProgress = res.data;
+        console.log(viewProgress);
         this.setState({ viewProgress});
       });
   };
 
-
-  
   updateFavorites = (challengeID) => {
     if (challengeID){
     axios
@@ -42,7 +47,6 @@ export default class ViewChallenges extends Component {
       })
   }
 }
-
 
   updateUnfavorites = (challengeID) => {
     if (challengeID){
@@ -74,11 +78,12 @@ export default class ViewChallenges extends Component {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                width: "70%",
-                height: "500px",
+                width: "100%",
+                height: "700px",
               }}
             >
               <div>
+                <p>Image</p>
                 <img
                   style={{
                     height: "300px",
@@ -90,17 +95,16 @@ export default class ViewChallenges extends Component {
                 />
                 <p>Badge</p>
                 <p>{json.badges}</p>
-               
               </div>
 
               <div>
-
-                <div>
+              <div>
                 {JSON.stringify(this.state.userId) === JSON.stringify(json.favoritedBy.filter((val) => val.includes(`${this.state.userId}`))[0])
                 ? <button className="general-button" onClick={(e) => this.updateUnfavorites(json._id, e)}>Unfavorite</button>
-                : <button className="general-button" onClick={(e) => this.updateFavorites(json._id, e)}> Favorite </button>
+                : <button className="general-button" onClick={(e) => this.updateFavorites(json._id, e)}>Favorite</button>
                 }
                 </div>
+
 
                 <p>Name: {json.name}</p>
 

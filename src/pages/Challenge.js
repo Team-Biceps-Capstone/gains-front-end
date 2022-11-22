@@ -26,7 +26,6 @@ export default class Challenge extends Component {
       challengeImage: "",
       challengeThumbnail: "",
       badge: noneBadge,
-      createdBy: "",
       constantBadges: [],
       constantChallenges: [],
       displayChallenges: null,
@@ -88,12 +87,10 @@ export default class Challenge extends Component {
       goals: this.state.challengeGoals,
       image: this.state.challengeImage,
       badge: this.state.badge.name,
-      createdBy: JSON.parse(window.localStorage.getItem("user"))._id
     };
 
     axios.post(`/challenge`, req).then((res) => {
-      this.handleClearForm(true);
-      this.handleCloseModal();
+      this.handleCloseModal(true);
       this.getDisplayChallenge();
       console.log(res);
       console.log(res.data);
@@ -133,10 +130,10 @@ export default class Challenge extends Component {
     this.setState({ showModal: true });
   }
 
-  handleCloseModal() {
+  handleCloseModal(submit) {
     document.getElementById("myNav").style.zIndex = 1;
     this.setState({ showModal: false });
-    this.handleClearForm();
+    this.handleClearForm(submit);
   }
 
   handleClearSearchBar() {
@@ -157,8 +154,7 @@ export default class Challenge extends Component {
       badge: noneBadge,
       challengeImage: "",
       challengeThumbnail: "",
-      challengeImageid: "",
-      createdBy: ""
+      challengeImageId: "",
     });
     this.resetForms();
   }
@@ -220,6 +216,7 @@ export default class Challenge extends Component {
   }
 
   deleteImage(id) {
+    console.log(id);
     axios.delete(`/cloudinary`, { data: { id: id } }).then((res) => {
       console.log(res);
     });
@@ -262,12 +259,6 @@ export default class Challenge extends Component {
             <button className="general-button">User Favorites</button>
             <button
               className="general-button"
-              onClick={(event) => (window.location.href = "/viewProgress")}
-            >
-              My Progress
-            </button>
-            <button
-              className="general-button"
               onClick={(event) => (window.location.href = "/viewChallenges")}
             >
               My Challenges
@@ -306,13 +297,16 @@ export default class Challenge extends Component {
         {/* ----------- MODAL ---------- */}
         <Modal
           isOpen={this.state.showModal}
-          onRequestClose={this.handleCloseModal}
+          onRequestClose={() => this.handleCloseModal(false)}
           shouldCloseOnOverlayClick={true}
           ariaHideApp={false}
         >
           <div className="modal-header">
             <div className="modal-title">Create Challenge</div>
-            <button className="general-button" onClick={this.handleCloseModal}>
+            <button
+              className="general-button"
+              onClick={() => this.handleCloseModal(false)}
+            >
               <VscChromeClose />
             </button>
           </div>

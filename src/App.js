@@ -17,6 +17,7 @@ import About from "./pages/About";
 import Challenge from "./pages/Challenge";
 import ViewChallenges from "./pages/ViewChallenges";
 import ViewProgress from "./pages/ViewProgress";
+import WallofFame from "./pages/WallofFame";
 import Signup from "./pages/Signup";
 import Logout from "./pages/Logout";
 
@@ -52,6 +53,13 @@ function App() {
           <Route
             path="/viewProgress"
             element={user2 ? <ViewProgress /> : <Navigate to="/" />}
+          >
+            {" "}
+          </Route>
+
+          <Route
+            path="/walloffame"
+            element={user2 ? <WallofFame /> : <Navigate to="/" />}
           >
             {" "}
           </Route>

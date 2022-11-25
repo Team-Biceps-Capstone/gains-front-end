@@ -59,6 +59,23 @@ export default class ViewProgress extends Component {
   }
 }
 
+completeChallenge = (challengeID) => {
+  if (challengeID){
+  axios 
+    .put(`/api/user/${challengeID}/addWOF/${this.state.userId}`)
+    .then((res) => {
+      console.log('added to wall of fame')
+    })
+
+  axios
+    .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+    .then((res) => {
+      window.location.reload(false)
+    })
+    
+}
+}
+
 
   render() {
     return (
@@ -127,6 +144,11 @@ export default class ViewProgress extends Component {
                     <li key={index}>{item}</li>
                   ))}
                 </p>
+
+                <div>
+                <button className="general-button" onClick={(e) => this.completeChallenge(json._id, e)}>Complete Challenge</button>
+                </div>
+
               </div>
             </div>
           ))}

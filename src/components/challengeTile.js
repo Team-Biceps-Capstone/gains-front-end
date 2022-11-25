@@ -1,17 +1,42 @@
 import React, { Component } from "react";
-import { AiFillHeart } from "react-icons/ai";
+import axios from "axios";
+import { AiFillAmazonCircle, AiFillFileMarkdown, AiFillHeart, AiFillPlusSquare } from "react-icons/ai";
 
 export default class ChallengeTile extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      favorite: this.props.json.favorites,
+      userId: JSON.parse(window.localStorage.getItem("user"))._id,
+    };
 
     this.handleUserFavorite = this.handleUserFavorite.bind(this);
     this.handleOpenTile = this.handleOpenTile.bind(this);
   }
 
-  handleUserFavorite(event, name) {
+  handleUserFavorite(event, name, challengeID) {
     event.stopPropagation();
+    
+    //favorite on click
+    axios
+    .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
+    .then((res) => {
+      console.log("added", res.data);
+      
+      //unfavorite on click
+      if (res.data === 'User has already favorited'){
+        axios
+        .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
+        .then((res) => {
+          console.log("unadded", res.data.favorites);
+          this.setState({favorite:`${res.data.favorites-1}`})   
+        });
+      } else { 
+        console.log("added")
+        this.setState({favorite:`${res.data.favorites+1}`})  
+      }
+    });
+
     console.log("User favorite :" + name);
   }
 
@@ -27,12 +52,13 @@ export default class ChallengeTile extends Component {
       >
         <div
           className="challenge-tile-favorites"
-          onClick={(e) => this.handleUserFavorite(e, this.props.json.name)}
+          onClick={(e) => this.handleUserFavorite(e, this.props.json.name, this.props.json._id)}
         >
           <AiFillHeart />
           <div>&nbsp;</div>
-          <div>{this.props.json.favorites}</div>
+          <div>{this.state.favorite}</div>
         </div>
+
         <img
           alt="challengeImage"
           src={this.props.json.image}

@@ -60,6 +60,7 @@
     flex-wrap: wrap;
     margin: auto;
 }
+
 .challenge-tile{
     border-radius: 15px;
     height: 300px;
@@ -67,12 +68,7 @@
     margin: 10px;
     background-color: white;
     color:black;
-    cursor: pointer;
     transition-duration: 0.4s;
-}
-
-.challenge-tile:hover{
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;
 }
 
 .challenge-tile-image{
@@ -112,6 +108,28 @@
     background-color: #003165;
 }
 
+.challenge-tile-participate{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    margin-left: 240px;
+    margin-top: 5px;
+    background-color: #517EC1;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 0;
+    border: 1px solid white;
+    color: white;
+    transition-duration: 0.4s;
+}
+
+.challenge-tile-participate:hover{
+    background-color: #003165;
+}
+
 .badge-image{
     height: 100px;
     width: 100px;
@@ -127,4 +145,13 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+}
+
+.overflow{
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
 }

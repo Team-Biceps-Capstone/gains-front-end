@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { AiFillAmazonCircle, AiFillFileMarkdown, AiFillHeart, AiFillPlusSquare } from "react-icons/ai";
+import {
+  AiFillAmazonCircle,
+  AiFillFileMarkdown,
+  AiFillHeart,
+  AiFillPlusSquare,
+} from "react-icons/ai";
 
 export default class ChallengeTile extends Component {
   constructor(props) {
@@ -11,53 +16,91 @@ export default class ChallengeTile extends Component {
     };
 
     this.handleUserFavorite = this.handleUserFavorite.bind(this);
-    this.handleOpenTile = this.handleOpenTile.bind(this);
+    this.addToProgress = this.addToProgress.bind(this);
+    this.deleteFromProgres = this.deleteFromProgres.bind(this);
   }
+
+  componentDidMount() {}
 
   handleUserFavorite(event, name, challengeID) {
     event.stopPropagation();
-    
+
     //favorite on click
     axios
-    .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
-    .then((res) => {
-      console.log("added", res.data);
-      
-      //unfavorite on click
-      if (res.data === 'User has already favorited'){
-        axios
-        .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
-        .then((res) => {
-          console.log("unadded", res.data.favorites);
-          this.setState({favorite:`${res.data.favorites-1}`})   
-        });
-      } else { 
-        console.log("added")
-        this.setState({favorite:`${res.data.favorites+1}`})  
-      }
-    });
+      .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
+      .then((res) => {
+        console.log("added", res.data);
+
+        //unfavorite on click
+        if (res.data === "User has already favorited") {
+          axios
+            .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
+            .then((res) => {
+              console.log("unadded", res.data.favorites);
+              this.setState({ favorite: `${res.data.favorites - 1}` });
+            });
+        } else {
+          console.log("added");
+          this.setState({ favorite: `${res.data.favorites + 1}` });
+        }
+      });
 
     console.log("User favorite :" + name);
   }
 
-  handleOpenTile(name) {
-    console.log("Open Challenge: " + name);
-  }
+  addToProgress = (challengeID) => {
+    if (challengeID) {
+      axios
+        .put(`/api/user/${challengeID}/addProgress/${this.state.userId}`)
+        .then((res) => {
+          this.props.addViewProgress(this.props.json);
+        });
+    }
+  };
+
+  deleteFromProgres = (challengeID) => {
+    if (challengeID) {
+      axios
+        .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+        .then((res) => {
+          this.props.removeViewProgress(challengeID);
+        });
+    }
+  };
 
   render() {
     return (
-      <div
-        onClick={() => this.handleOpenTile(this.props.json.name)}
-        className="challenge-tile"
-      >
+      <div className="challenge-tile">
         <div
           className="challenge-tile-favorites"
-          onClick={(e) => this.handleUserFavorite(e, this.props.json.name, this.props.json._id)}
+          onClick={(e) =>
+            this.handleUserFavorite(
+              e,
+              this.props.json.name,
+              this.props.json._id
+            )
+          }
         >
           <AiFillHeart />
           <div>&nbsp;</div>
           <div>{this.state.favorite}</div>
         </div>
+
+        {this.props.viewProgress.find((e) => e._id === this.props.json._id) ? (
+          <div
+            className="challenge-tile-participate"
+            onClick={(e) => this.deleteFromProgres(this.props.json._id, e)}
+          >
+            Leave
+          </div>
+        ) : (
+          <div
+            className="challenge-tile-participate"
+            onClick={(e) => this.addToProgress(this.props.json._id, e)}
+          >
+            Join
+          </div>
+        )}
 
         <img
           alt="challengeImage"
@@ -65,11 +108,13 @@ export default class ChallengeTile extends Component {
           className="challenge-tile-image"
         ></img>
         <div className="challenge-tile-description">
-          <div>
-            <strong>{this.props.json.name}</strong>
+          <div className="overflow">
+            <strong className="overflow">{this.props.json.name}</strong>
           </div>
-          <div>{this.props.json.challenge}</div>
-          tags: {this.props.json.tags.map((tag) => "#" + tag + " ")}
+          <div className="overflow">{this.props.json.challenge}</div>
+          <div className="overflow">
+            tags: {this.props.json.tags.map((tag) => "#" + tag + " ")}
+          </div>
         </div>
       </div>
     );

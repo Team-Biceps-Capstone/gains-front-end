@@ -33,6 +33,7 @@ export default class Challenge extends Component {
       displayChallenges: null,
       originalDisplayChallenges: null,
       searchBar: "",
+      viewProgress: [],
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -44,6 +45,8 @@ export default class Challenge extends Component {
     this.handleUserFavorite = this.handleUserFavorite.bind(this);
     this.getDisplayChallenge = this.getDisplayChallenge.bind(this);
     this.getConstantChallenges = this.getConstantChallenges.bind(this);
+    this.getInProgressChallenges = this.getInProgressChallenges.bind(this);
+    this.addViewProgress = this.addViewProgress.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +55,36 @@ export default class Challenge extends Component {
     this.getDisplayChallenge();
     const userID = JSON.parse(localStorage.getItem("user"))._id;
     this.setState({ userID });
+    this.getInProgressChallenges();
   }
+
+  getInProgressChallenges = () => {
+    let Bearertoken = JSON.parse(window.localStorage.getItem("user")).token;
+    axios
+      .get(`api/user/view`, {
+        headers: {
+          Authorization: `Bearer ${Bearertoken}`,
+        },
+      })
+      .then((res) => {
+        const viewProgress = res.data;
+        console.log(viewProgress);
+        this.setState({ viewProgress });
+      });
+  };
+
+  addViewProgress = (challengeObj) => {
+    console.log(challengeObj);
+    this.setState({ viewProgress: [...this.state.viewProgress, challengeObj] });
+  };
+
+  removeViewProgress = (challengeID) => {
+    this.setState({
+      viewProgress: this.state.viewProgress.filter(function (challenge) {
+        return challengeID !== challenge._id;
+      }),
+    });
+  };
 
   getConstantChallenges = () => {
     axios.post(`/constant`, { name: "challenges" }).then((res) => {
@@ -294,12 +326,12 @@ export default class Challenge extends Component {
               My Created Challenges
             </button>
 
-            <button 
-            className="general-button"
-            onClick={(event) => (window.location.href = "/walloffame")}
+            <button
+              className="general-button"
+              onClick={(event) => (window.location.href = "/walloffame")}
             >
               Wall of Fame
-              </button>
+            </button>
             <button className="general-button" onClick={this.handleOpenModal}>
               Create Challenge
             </button>
@@ -323,7 +355,13 @@ export default class Challenge extends Component {
           <div className="challenge-tile-center-box">
             <div className="challenge-tile-box">
               {this.state.displayChallenges.map((json) => (
-                <ChallengeTile key={json.name} json={json} />
+                <ChallengeTile
+                  key={json.name}
+                  json={json}
+                  viewProgress={this.state.viewProgress}
+                  addViewProgress={this.addViewProgress}
+                  removeViewProgress={this.removeViewProgress}
+                />
               ))}
             </div>
           </div>

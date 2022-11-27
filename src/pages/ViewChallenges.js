@@ -22,7 +22,9 @@ export default class ViewChallenges extends Component {
   }
 
   viewDisplayChallenge = () => {
-    axios.get(`challenge/${this.state.userId}/myChallenges`).then((res) => {
+    axios
+    .get(`challenge/${this.state.userId}/myChallenges`)
+    .then((res) => {
       const viewProgress = res.data;
       this.setState({ viewProgress });
     });
@@ -46,6 +48,16 @@ export default class ViewChallenges extends Component {
         .then((res) => {
           console.log("unadded");
           window.location.reload(false);
+        });
+    }
+  };
+
+  addToProgress = (challengeID) => {
+    if (challengeID) {
+      axios
+        .put(`/api/user/${challengeID}/addProgress/${this.state.userId}`)
+        .then((res) => {
+          console.log("added challenge to progress");
         });
     }
   };
@@ -111,6 +123,7 @@ export default class ViewChallenges extends Component {
                   )}
                 </div>
 
+
                 <p>Name: {json.name}</p>
 
                 <p>Challenge: {json.challenge}</p>
@@ -132,6 +145,15 @@ export default class ViewChallenges extends Component {
                     <li key={index}>{item}</li>
                   ))}
                 </p>
+
+                <div>
+                <button
+                      className="general-button"
+                      onClick={(e) => this.addToProgress(json._id, e)}
+                    >
+                      Add
+                    </button>
+                </div>
               </div>
             </div>
           ))}

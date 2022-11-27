@@ -284,16 +284,22 @@ export default class Challenge extends Component {
               className="general-button"
               onClick={(event) => (window.location.href = "/viewProgress")}
             >
-              My Progress
+              My Challenges in Progress
             </button>
 
             <button
               className="general-button"
               onClick={(event) => (window.location.href = "/viewChallenges")}
             >
-              My Challenges
+              My Created Challenges
             </button>
-            <button className="general-button">Wall of Fame</button>
+
+            <button 
+            className="general-button"
+            onClick={(event) => (window.location.href = "/walloffame")}
+            >
+              Wall of Fame
+              </button>
             <button className="general-button" onClick={this.handleOpenModal}>
               Create Challenge
             </button>

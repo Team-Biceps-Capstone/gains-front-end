@@ -155,3 +155,37 @@
     white-space: pre-wrap;
     word-break: break-word;
 }
+
+.badge-pending{
+    display: flex;
+    height: 90px;
+    width: 90px; 
+    filter: 
+    opacity(0.2) 
+    drop-shadow(0px 0px 0px rgb(54, 53, 53))
+    drop-shadow(5px 5px 5px rgb(21, 21, 21))
+  
+}
+.badge-won1{
+    display: flex;
+    height: 90px;
+    width: 90px; 
+    filter: 
+    opacity(0.4) 
+    drop-shadow(0px 0px 0px rgb(0, 83, 207)) 
+    drop-shadow(0px 0px 0px rgb(0, 83, 207)) 
+    drop-shadow(5px 5px 15px rgb(0, 255, 251)) 
+    drop-shadow(5px 5px 15px rgb(0, 255, 251));
+}
+
+.badge-won2{
+    display: flex;
+    height: 90px;
+    width: 90px; 
+    filter: 
+    opacity(0.4) 
+    drop-shadow(0px 0px 0px rgb(223, 141, 0))
+    drop-shadow(0px 0px 0px rgb(223, 141, 0))
+    drop-shadow(5px 5px 15px rgb(255, 195, 82)) 
+    drop-shadow(5px 5px 15px rgb(255, 195, 82)) 
+}

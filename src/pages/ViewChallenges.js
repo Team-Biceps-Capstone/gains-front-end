@@ -2,24 +2,28 @@ import React, { Component } from "react";
 import "../css/Challenge.css";
 import axios, { HttpStatusCode } from "axios";
 
+
 export default class ViewChallenges extends Component {
   constructor() {
     super();
     this.state = {
       viewProgress: [],
+      viewinprogressarray: [],
       userId: JSON.parse(window.localStorage.getItem("user"))._id,
     };
 
     this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this);
     this.updateFavorites = this.updateFavorites.bind(this);
     this.updateUnfavorites = this.updateUnfavorites.bind(this);
+    this.viewInProgress = this.viewInProgress.bind(this);
   }
 
   componentDidMount() {
     this.viewDisplayChallenge();
     this.updateFavorites();
     this.updateUnfavorites();
-  }
+    this.viewInProgress();
+ }
 
   viewDisplayChallenge = () => {
     axios
@@ -58,14 +62,49 @@ export default class ViewChallenges extends Component {
         .put(`/api/user/${challengeID}/addProgress/${this.state.userId}`)
         .then((res) => {
           console.log("added challenge to progress");
+          window.location.reload(false)
         });
     }
   };
 
+  removeProgress = (challengeID) => {
+    if (challengeID) {
+      axios
+        .delete(`api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+        .then((res) => {
+          console.log("removed progress");
+          window.location.reload(false)
+        });
+    }
+  };
+
+  viewInProgress = () => {
+    let Bearertoken = JSON.parse(window.localStorage.getItem("user")).token;
+    axios
+      .get(`api/user/view`, {
+        headers: {
+          Authorization: `Bearer ${Bearertoken}`,
+        },
+      })
+      .then((res) => {
+        let viewinprogressarray = []
+        let len = res.data.length
+
+        for (let i = 0; i < len; i++ ){
+          viewinprogressarray.push(res.data[i]._id)
+        }
+        this.setState({ viewinprogressarray});
+      });
+  };
+
+
+
   render() {
     return (
+      
       <div className="challenge">
         <div>
+
           <button
             className="general-button"
             onClick={(event) => (window.location.href = "/challenge")}
@@ -74,14 +113,17 @@ export default class ViewChallenges extends Component {
           </button>
           <br />
           <br />
-          {this.state.viewProgress.map((json) => (
+         
+          
+          {this.state.viewProgress.map((json, index) => (
+            
             <div
               key={json._id}
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                width: "70%",
-                height: "500px",
+                width: "60%",
+                height: "700px",
               }}
             >
               <div>
@@ -94,8 +136,38 @@ export default class ViewChallenges extends Component {
                   alt="challenge"
                   src={json.image}
                 />
-                <p>Badge</p>
-                <p>{json.badges}</p>
+                <div>
+                
+                <div>
+           
+                {
+                JSON.stringify(json.badge) === JSON.stringify("team") && 
+                <div>
+                  <div className="badge-pending">
+                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
+                  </div>
+                  <div>
+                    <h5>{json.badge}<br/></h5>
+                    <p>"Complete a challenge with a partner"</p>
+                  </div>
+                </div>
+                }
+
+                {
+                JSON.stringify(json.badge) === JSON.stringify("rain") && 
+                <div>
+                  <div className="badge-pending">
+                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
+                  </div>
+                  <div>
+                    <h5>{json.badge}<br/></h5>
+                    <p>"Complete a challenge in the rain"</p>
+                  </div>
+                </div>
+                }
+
+                </div>
+                </div>
               </div>
 
               <div>
@@ -146,13 +218,25 @@ export default class ViewChallenges extends Component {
                   ))}
                 </p>
 
+
                 <div>
-                <button
+                  {JSON.stringify(this.state.viewinprogressarray.includes(json._id)) === 'true'
+                  ? (
+                    <button
+                      className="general-button"
+                      onClick={(e) => this.removeProgress(json._id, e)}
+                    >
+                      Leave
+                    </button>
+                  ) : (
+                    <button
                       className="general-button"
                       onClick={(e) => this.addToProgress(json._id, e)}
                     >
-                      Add
+                      {" "}
+                      Join {" "}
                     </button>
+                  )}
                 </div>
               </div>
             </div>

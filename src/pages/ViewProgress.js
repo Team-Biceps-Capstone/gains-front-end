@@ -73,7 +73,18 @@ completeChallenge = (challengeID) => {
     })
     
 }
+
 }
+
+deleteFromProgres = (challengeID) => {
+  if (challengeID) {
+    axios
+      .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+      .then((res) => {
+        window.location.reload(false)
+      });
+  }
+};
 
 
   render() {
@@ -99,7 +110,6 @@ completeChallenge = (challengeID) => {
               }}
             >
               <div>
-                <p>Image</p>
                 <img
                   style={{
                     height: "300px",
@@ -168,7 +178,8 @@ completeChallenge = (challengeID) => {
                 </p>
 
                 <div>
-                <button className="general-button" onClick={(e) => this.completeChallenge(json._id, e)}>Complete Challenge</button>
+                  <button className="general-button2" onClick={(e) => this.deleteFromProgres(json._id, e)} > Leave </button>
+                  <button className="general-button3" onClick={(e) => this.completeChallenge(json._id, e)}>Complete Challenge</button>
                 </div>
 
               </div>

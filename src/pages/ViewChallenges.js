@@ -223,14 +223,14 @@ export default class ViewChallenges extends Component {
                   {JSON.stringify(this.state.viewinprogressarray.includes(json._id)) === 'true'
                   ? (
                     <button
-                      className="general-button"
+                      className="general-button2"
                       onClick={(e) => this.removeProgress(json._id, e)}
                     >
                       Leave
                     </button>
                   ) : (
                     <button
-                      className="general-button"
+                      className="general-button3"
                       onClick={(e) => this.addToProgress(json._id, e)}
                     >
                       {" "}

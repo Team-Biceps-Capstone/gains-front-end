@@ -24,6 +24,44 @@ body {
     background-color: #003165; /* Green */
  }
 
+ .general-button2{
+    background-color: #517EC1; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.general-button2:hover {
+    background-color: #850000; /* Green */
+ }
+
+ .general-button3{
+    background-color: #517EC1; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.general-button3:hover {
+    background-color: #005e30; /* Green */
+ }
+
 .loading-spinner{
     height: 100%;
     width: 100%;

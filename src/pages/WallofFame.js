@@ -28,6 +28,15 @@ export default class WallofFame extends Component {
       });
   };
 
+  removeWOF = (challengeID) => {
+    if (challengeID){
+    axios
+      .delete(`/api/user/${challengeID}/removeWOF/${this.state.userId}`)
+      .then((res) => {
+        window.location.reload(false)
+      })
+  }
+  }
 
 
 
@@ -67,15 +76,27 @@ export default class WallofFame extends Component {
                 <div>
                 {
                 JSON.stringify(json.badge) === JSON.stringify("team") && 
+                <div>
                 <div className="badge-won1">
                   <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
+                </div>
+                <div> <br/>
+                    <h4>{json.badge}<br/></h4>
+                    <h6>"Complete a challenge with a partner"</h6>
+                  </div>
                 </div>
                 }
 
                 {
                 JSON.stringify(json.badge) === JSON.stringify("rain") && 
+                <div>
                 <div className="badge-won2">
                   <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
+                </div>
+                <div> <br/>
+                    <h4>{json.badge} <br/></h4>
+                    <h6>"Complete a challenge in the rain"</h6>
+                  </div>
                 </div>
                 }
                 
@@ -106,6 +127,11 @@ export default class WallofFame extends Component {
                     <li key={index}>{item}</li>
                   ))}
                 </p>
+
+                <div>
+                <button className="general-button3" onClick={(e) => this.removeWOF(json._id, e)}>Re-join</button>
+                </div>
+
               </div>
             </div>
           ))}

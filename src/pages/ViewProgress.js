@@ -6,11 +6,11 @@ export default class ViewProgress extends Component {
   constructor() {
     super();
     this.state = {
-      viewProgress: [], 
-      userId: JSON.parse(window.localStorage.getItem("user"))._id
+      viewProgress: [],
+      userId: JSON.parse(window.localStorage.getItem("user"))._id,
     };
-    
-    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this); 
+
+    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this);
     this.updateFavorites = this.updateFavorites.bind(this);
     this.updateUnfavorites = this.updateUnfavorites.bind(this);
   }
@@ -32,60 +32,57 @@ export default class ViewProgress extends Component {
       .then((res) => {
         const viewProgress = res.data;
         console.log(viewProgress);
-        this.setState({ viewProgress});
+        this.setState({ viewProgress });
       });
   };
 
   updateFavorites = (challengeID) => {
-    if (challengeID){
-    axios
-      .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
-      .then((res) => {
-        console.log('added')
-        window.location.reload(false)
-      })
-  }
-}
+    if (challengeID) {
+      axios
+        .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
+        .then((res) => {
+          console.log("added");
+          window.location.reload(false);
+        });
+    }
+  };
 
   updateUnfavorites = (challengeID) => {
-    if (challengeID){
-    axios
-      .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
-      .then((res) => {
-        console.log('unadded')
-        window.location.reload(false)
-      })
-  }
-}
+    if (challengeID) {
+      axios
+        .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
+        .then((res) => {
+          console.log("unadded");
+          window.location.reload(false);
+        });
+    }
+  };
 
-completeChallenge = (challengeID) => {
-  if (challengeID){
-  axios 
-    .put(`/api/user/${challengeID}/addWOF/${this.state.userId}`)
-    .then((res) => {
-      console.log('added to wall of fame')
-    })
+  completeChallenge = (challengeID) => {
+    if (challengeID) {
+      axios
+        .put(`/api/user/${challengeID}/addWOF/${this.state.userId}`)
+        .then((res) => {
+          console.log("added to wall of fame");
+        });
 
-  axios
-    .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
-    .then((res) => {
-      window.location.reload(false)
-    })
-    
-}
+      axios
+        .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+        .then((res) => {
+          window.location.reload(false);
+        });
+    }
+  };
 
-}
-
-deleteFromProgres = (challengeID) => {
-  if (challengeID) {
-    axios
-      .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
-      .then((res) => {
-        window.location.reload(false)
-      });
-  }
-};
-
+  deleteFromProgres = (challengeID) => {
+    if (challengeID) {
+      axios
+        .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
+        .then((res) => {
+          window.location.reload(false);
+        });
+    }
+  };
 
   render() {
     return (
@@ -96,6 +93,24 @@ deleteFromProgres = (challengeID) => {
             onClick={(event) => (window.location.href = "/challenge")}
           >
             Back to Challenges
+          </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/viewChallenges")}
+          >
+            My Created Challenges
+          </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/viewProgress")}
+          >
+            My Challenges in Progress
+          </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/walloffame")}
+          >
+            Wall of Fame
           </button>
           <br />
           <br />
@@ -119,42 +134,62 @@ deleteFromProgres = (challengeID) => {
                   alt="challenge"
                   src={json.image}
                 />
-               
-                <div>
-                {
-                JSON.stringify(json.badge) === JSON.stringify("team") && 
-                <div>
-                  <div className="badge-pending">
-                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
-                  </div>
-                  <div>
-                    <h5>{json.badge}<br/></h5>
-                    <p>"Complete a challenge with a partner"</p>
-                  </div>
-                </div>
-                }
 
-                {
-                JSON.stringify(json.badge) === JSON.stringify("rain") && 
                 <div>
-                  <div className="badge-pending">
-                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
-                  </div>
-                  <div>
-                    <h5>{json.badge}<br/></h5>
-                    <p>"Complete a challenge in the rain"</p>
-                  </div>
-                </div>
-                }
+                  {JSON.stringify(json.badge) === JSON.stringify("team") && (
+                    <div>
+                      <div className="badge-pending">
+                        <img src="https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png" />
+                      </div>
+                      <div>
+                        <h5>
+                          {json.badge}
+                          <br />
+                        </h5>
+                        <p>"Complete a challenge with a partner"</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {JSON.stringify(json.badge) === JSON.stringify("rain") && (
+                    <div>
+                      <div className="badge-pending">
+                        <img src="https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png" />
+                      </div>
+                      <div>
+                        <h5>
+                          {json.badge}
+                          <br />
+                        </h5>
+                        <p>"Complete a challenge in the rain"</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div>
-              <div>
-                {JSON.stringify(this.state.userId) === JSON.stringify(json.favoritedBy.filter((val) => val.includes(`${this.state.userId}`))[0])
-                ? <button className="general-button" onClick={(e) => this.updateUnfavorites(json._id, e)}>Unfavorite</button>
-                : <button className="general-button" onClick={(e) => this.updateFavorites(json._id, e)}>Favorite</button>
-                }
+                <div>
+                  {JSON.stringify(this.state.userId) ===
+                  JSON.stringify(
+                    json.favoritedBy.filter((val) =>
+                      val.includes(`${this.state.userId}`)
+                    )[0]
+                  ) ? (
+                    <button
+                      className="general-button"
+                      onClick={(e) => this.updateUnfavorites(json._id, e)}
+                    >
+                      Unfavorite
+                    </button>
+                  ) : (
+                    <button
+                      className="general-button"
+                      onClick={(e) => this.updateFavorites(json._id, e)}
+                    >
+                      Favorite
+                    </button>
+                  )}
                 </div>
 
                 <p>Name: {json.name}</p>
@@ -178,10 +213,20 @@ deleteFromProgres = (challengeID) => {
                 </p>
 
                 <div>
-                  <button className="general-button2" onClick={(e) => this.deleteFromProgres(json._id, e)} > Leave </button>
-                  <button className="general-button3" onClick={(e) => this.completeChallenge(json._id, e)}>Complete Challenge</button>
+                  <button
+                    className="general-button2"
+                    onClick={(e) => this.deleteFromProgres(json._id, e)}
+                  >
+                    {" "}
+                    Leave{" "}
+                  </button>
+                  <button
+                    className="general-button3"
+                    onClick={(e) => this.completeChallenge(json._id, e)}
+                  >
+                    Complete Challenge
+                  </button>
                 </div>
-
               </div>
             </div>
           ))}

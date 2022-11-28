@@ -6,39 +6,44 @@ export default class WallofFame extends Component {
   constructor() {
     super();
     this.state = {
-      viewWOF: [], 
-      userId: JSON.parse(window.localStorage.getItem("user"))._id
+      viewWOF: [],
+      userBadges: [],
+      userId: JSON.parse(window.localStorage.getItem("user"))._id,
     };
-    
-    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this); 
 
+    this.viewDisplayChallenge = this.viewDisplayChallenge.bind(this);
   }
 
   componentDidMount() {
     this.viewDisplayChallenge();
+    this.getUserBadges();
   }
 
+  getUserBadges = () => {
+    axios.get(`api/user/badges/${this.state.userId}`).then((res) => {
+      const userBadges = res.data;
+      console.log(userBadges);
+      this.setState({ userBadges });
+    });
+  };
+
   viewDisplayChallenge = () => {
-    axios
-      .get(`api/user/viewWOF/${this.state.userId}`)
-      .then((res) => {
-        const viewWOF = res.data;
-        console.log(viewWOF);
-        this.setState({ viewWOF});
-      });
+    axios.get(`api/user/viewWOF/${this.state.userId}`).then((res) => {
+      const viewWOF = res.data;
+      console.log(viewWOF);
+      this.setState({ viewWOF });
+    });
   };
 
   removeWOF = (challengeID) => {
-    if (challengeID){
-    axios
-      .delete(`/api/user/${challengeID}/removeWOF/${this.state.userId}`)
-      .then((res) => {
-        window.location.reload(false)
-      })
-  }
-  }
-
-
+    if (challengeID) {
+      axios
+        .delete(`/api/user/${challengeID}/removeWOF/${this.state.userId}`)
+        .then((res) => {
+          window.location.reload(false);
+        });
+    }
+  };
 
   render() {
     return (
@@ -50,8 +55,86 @@ export default class WallofFame extends Component {
           >
             Back to Challenges
           </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/viewChallenges")}
+          >
+            My Created Challenges
+          </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/viewProgress")}
+          >
+            My Challenges in Progress
+          </button>
+          <button
+            className="general-button"
+            onClick={(event) => (window.location.href = "/walloffame")}
+          >
+            Wall of Fame
+          </button>
           <br />
+          <h4
+            style={{
+              marginLeft: "10px",
+            }}
+          >
+            User Badges
+          </h4>
+
+          {this.state.userBadges.length === 0 ? (
+            <div
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              No Badges Acquired
+            </div>
+          ) : (
+            this.state.userBadges.map((json) => (
+              <div
+                key={json._id}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  flexWrap: "wrap",
+                  marginLeft: "5%",
+                  width: "90%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    margin: "10px",
+                  }}
+                >
+                  <img
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      borderRadius: "15px",
+                      objectFit: "cover",
+                    }}
+                    src={json.image}
+                    alt={json.name}
+                  ></img>
+                  <div>{json.description}</div>
+                </div>
+              </div>
+            ))
+          )}
           <br />
+          <h4
+            style={{
+              marginLeft: "10px",
+            }}
+          >
+            Completed Challenges
+          </h4>
+
           {this.state.viewWOF.map((json) => (
             <div
               key={json._id}
@@ -74,38 +157,21 @@ export default class WallofFame extends Component {
                 />
 
                 <div>
-                {
-                JSON.stringify(json.badge) === JSON.stringify("team") && 
-                <div>
-                <div className="badge-won1">
-                  <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
-                </div>
-                <div> <br/>
-                    <h4>{json.badge}<br/></h4>
-                    <h6>"Complete a challenge with a partner"</h6>
-                  </div>
-                </div>
-                }
+                  {JSON.stringify(json.badge) === JSON.stringify("team") && (
+                    <div className="badge-won1">
+                      <img src="https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png" />
+                    </div>
+                  )}
 
-                {
-                JSON.stringify(json.badge) === JSON.stringify("rain") && 
-                <div>
-                <div className="badge-won2">
-                  <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
-                </div>
-                <div> <br/>
-                    <h4>{json.badge} <br/></h4>
-                    <h6>"Complete a challenge in the rain"</h6>
-                  </div>
-                </div>
-                }
-                
+                  {JSON.stringify(json.badge) === JSON.stringify("rain") && (
+                    <div className="badge-won2">
+                      <img src="https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png" />
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div>
-
-
                 <p>Name: {json.name}</p>
 
                 <p>Challenge: {json.challenge}</p>
@@ -129,9 +195,13 @@ export default class WallofFame extends Component {
                 </p>
 
                 <div>
-                <button className="general-button3" onClick={(e) => this.removeWOF(json._id, e)}>Re-join</button>
+                  <button
+                    className="general-button3"
+                    onClick={(e) => this.removeWOF(json._id, e)}
+                  >
+                    Re-join
+                  </button>
                 </div>
-
               </div>
             </div>
           ))}
@@ -140,4 +210,3 @@ export default class WallofFame extends Component {
     );
   }
 }
-

@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  AiFillAmazonCircle,
-  AiFillFileMarkdown,
-  AiFillHeart,
-  AiFillPlusSquare,
-} from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 
 export default class ChallengeTile extends Component {
   constructor(props) {
@@ -17,7 +12,7 @@ export default class ChallengeTile extends Component {
 
     this.handleUserFavorite = this.handleUserFavorite.bind(this);
     this.addToProgress = this.addToProgress.bind(this);
-    this.deleteFromProgres = this.deleteFromProgres.bind(this);
+    this.deleteFromProgress = this.deleteFromProgress.bind(this);
   }
 
   componentDidMount() {}
@@ -58,7 +53,7 @@ export default class ChallengeTile extends Component {
     }
   };
 
-  deleteFromProgres = (challengeID) => {
+  deleteFromProgress = (challengeID) => {
     if (challengeID) {
       axios
         .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
@@ -86,10 +81,14 @@ export default class ChallengeTile extends Component {
           <div>{this.state.favorite}</div>
         </div>
 
-        {this.props.viewProgress.find((e) => e._id === this.props.json._id) ? (
+        {this.props.viewCompleted.find((e) => e._id === this.props.json._id) ? (
+          <div className="challenge-tile-participate nohover">Done</div>
+        ) : this.props.viewProgress.find(
+            (e) => e._id === this.props.json._id
+          ) ? (
           <div
             className="challenge-tile-participate"
-            onClick={(e) => this.deleteFromProgres(this.props.json._id, e)}
+            onClick={(e) => this.deleteFromProgress(this.props.json._id, e)}
           >
             Leave
           </div>

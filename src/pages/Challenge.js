@@ -34,6 +34,7 @@ export default class Challenge extends Component {
       originalDisplayChallenges: null,
       searchBar: "",
       viewProgress: [],
+      viewCompleted: [],
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -56,7 +57,23 @@ export default class Challenge extends Component {
     const userID = JSON.parse(localStorage.getItem("user"))._id;
     this.setState({ userID });
     this.getInProgressChallenges();
+    this.getCompletedChallenges();
   }
+
+  getCompletedChallenges = () => {
+    let Bearertoken = JSON.parse(window.localStorage.getItem("user")).token;
+    axios
+      .get(`api/user/completed`, {
+        headers: {
+          Authorization: `Bearer ${Bearertoken}`,
+        },
+      })
+      .then((res) => {
+        const viewCompleted = res.data;
+        console.log(viewCompleted);
+        this.setState({ viewCompleted });
+      });
+  };
 
   getInProgressChallenges = () => {
     let Bearertoken = JSON.parse(window.localStorage.getItem("user")).token;
@@ -308,9 +325,9 @@ export default class Challenge extends Component {
           <div>
             <button
               className="general-button"
-              onClick={this.handleUserFavorite}
+              onClick={(event) => (window.location.href = "/viewChallenges")}
             >
-              User Favorites
+              My Created Challenges
             </button>
             <button
               className="general-button"
@@ -318,19 +335,18 @@ export default class Challenge extends Component {
             >
               My Challenges in Progress
             </button>
-
-            <button
-              className="general-button"
-              onClick={(event) => (window.location.href = "/viewChallenges")}
-            >
-              My Created Challenges
-            </button>
-
             <button
               className="general-button"
               onClick={(event) => (window.location.href = "/walloffame")}
             >
               Wall of Fame
+            </button>
+            <div style={{ display: "inline-block", fontSize: "30px" }}>|</div>
+            <button
+              className="general-button"
+              onClick={this.handleUserFavorite}
+            >
+              User Favorites
             </button>
             <button className="general-button" onClick={this.handleOpenModal}>
               Create Challenge
@@ -359,6 +375,7 @@ export default class Challenge extends Component {
                   key={json.name}
                   json={json}
                   viewProgress={this.state.viewProgress}
+                  viewCompleted={this.state.viewCompleted}
                   addViewProgress={this.addViewProgress}
                   removeViewProgress={this.removeViewProgress}
                 />

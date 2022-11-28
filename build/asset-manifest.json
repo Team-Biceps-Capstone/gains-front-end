@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.eecfd307.css",
+    "main.js": "/static/js/main.53fb19f8.js",
+    "static/media/osu.jpg": "/static/media/osu.19da2b9f32bdb516ab06.jpg",
+    "static/media/run.jpg": "/static/media/run.cbc5d32695c435e1f38e.jpg",
+    "index.html": "/index.html",
+    "main.eecfd307.css.map": "/static/css/main.eecfd307.css.map",
+    "main.53fb19f8.js.map": "/static/js/main.53fb19f8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eecfd307.css",
+    "static/js/main.53fb19f8.js"
+  ]
+}

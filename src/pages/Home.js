@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/Home.css";
 import run from "../images/run.jpg";
+import { Link } from "react-router-dom";
 
 export default class Home extends Component {
   render() {
@@ -18,32 +19,20 @@ export default class Home extends Component {
           <br></br>
           {!this.props.user ? (
             <>
-              <button
-                onClick={(event) => (window.location.href = "/login")}
-                className="general-button"
-              >
-                Log In
-              </button>
-              <button
-                onClick={(event) => (window.location.href = "/signup")}
-                className="general-button"
-              >
-                Sign Up
-              </button>
-              <button
-                onClick={(event) => (window.location.href = "/about")}
-                className="general-button"
-              >
-                Our Story
-              </button>{" "}
+              <Link to="/login">
+                <button className="general-button">Log In</button>
+              </Link>
+              <Link to="/signup">
+                <button className="general-button">Sign Up</button>
+              </Link>
+              <Link to="/about">
+                <button className="general-button">Our Story</button>
+              </Link>
             </>
           ) : (
-            <button
-              onClick={(event) => (window.location.href = "/challenge")}
-              className="general-button"
-            >
-              Grind Time!
-            </button>
+            <Link to="/challenge">
+              <button className="general-button">Grind Time</button>
+            </Link>
           )}
         </div>
       </div>

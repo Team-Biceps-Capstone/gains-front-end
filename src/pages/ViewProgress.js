@@ -19,7 +19,6 @@ export default class ViewProgress extends Component {
     this.viewDisplayChallenge();
     this.updateFavorites();
     this.updateUnfavorites();
-  
   }
 
   viewDisplayChallenge = () => {
@@ -95,7 +94,7 @@ completeChallenge = (challengeID) => {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                width: "100%",
+                width: "60%",
                 height: "700px",
               }}
             >
@@ -110,8 +109,34 @@ completeChallenge = (challengeID) => {
                   alt="challenge"
                   src={json.image}
                 />
-                <p>Badge</p>
-                <p>{json.badges}</p>
+               
+                <div>
+                {
+                JSON.stringify(json.badge) === JSON.stringify("team") && 
+                <div>
+                  <div className="badge-pending">
+                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
+                  </div>
+                  <div>
+                    <h5>{json.badge}<br/></h5>
+                    <p>"Complete a challenge with a partner"</p>
+                  </div>
+                </div>
+                }
+
+                {
+                JSON.stringify(json.badge) === JSON.stringify("rain") && 
+                <div>
+                  <div className="badge-pending">
+                    <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
+                  </div>
+                  <div>
+                    <h5>{json.badge}<br/></h5>
+                    <p>"Complete a challenge in the rain"</p>
+                  </div>
+                </div>
+                }
+                </div>
               </div>
 
               <div>
@@ -122,11 +147,8 @@ completeChallenge = (challengeID) => {
                 }
                 </div>
 
-
                 <p>Name: {json.name}</p>
-
                 <p>Challenge: {json.challenge}</p>
-
                 <p>
                   {" "}
                   Tags:

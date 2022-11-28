@@ -49,12 +49,11 @@ export default class WallofFame extends Component {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                width: "100%",
+                width: "60%",
                 height: "700px",
               }}
             >
               <div>
-                <p>Image</p>
                 <img
                   style={{
                     height: "300px",
@@ -64,8 +63,23 @@ export default class WallofFame extends Component {
                   alt="challenge"
                   src={json.image}
                 />
-                <p>Badge</p>
-                <p>{json.badges}</p>
+
+                <div>
+                {
+                JSON.stringify(json.badge) === JSON.stringify("team") && 
+                <div className="badge-won1">
+                  <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668114964/badges/highfive_xkqayd.png'/>
+                </div>
+                }
+
+                {
+                JSON.stringify(json.badge) === JSON.stringify("rain") && 
+                <div className="badge-won2">
+                  <img src = 'https://res.cloudinary.com/dknbyexun/image/upload/v1668116867/badges/umbrella_ohxeho.png'/>
+                </div>
+                }
+                
+                </div>
               </div>
 
               <div>

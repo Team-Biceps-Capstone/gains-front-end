@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/Challenge.css";
 import axios, { HttpStatusCode } from "axios";
+import { Link } from "react-router-dom";
 
 export default class ViewProgress extends Component {
   constructor() {
@@ -42,7 +43,7 @@ export default class ViewProgress extends Component {
         .put(`/challenge/${challengeID}/favorite/${this.state.userId}`)
         .then((res) => {
           console.log("added");
-          window.location.reload(false);
+          this.componentDidMount();
         });
     }
   };
@@ -53,7 +54,7 @@ export default class ViewProgress extends Component {
         .put(`/challenge/${challengeID}/unfavorite/${this.state.userId}`)
         .then((res) => {
           console.log("unadded");
-          window.location.reload(false);
+          this.componentDidMount();
         });
     }
   };
@@ -69,7 +70,7 @@ export default class ViewProgress extends Component {
       axios
         .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
         .then((res) => {
-          window.location.reload(false);
+          this.componentDidMount();
         });
     }
   };
@@ -79,7 +80,7 @@ export default class ViewProgress extends Component {
       axios
         .delete(`/api/user/${challengeID}/deleteProgress/${this.state.userId}`)
         .then((res) => {
-          window.location.reload(false);
+          this.componentDidMount();
         });
     }
   };
@@ -88,30 +89,18 @@ export default class ViewProgress extends Component {
     return (
       <div className="challenge">
         <div>
-          <button
-            className="general-button"
-            onClick={(event) => (window.location.href = "/challenge")}
-          >
-            Back to Challenges
-          </button>
-          <button
-            className="general-button"
-            onClick={(event) => (window.location.href = "/viewChallenges")}
-          >
-            My Created Challenges
-          </button>
-          <button
-            className="general-button"
-            onClick={(event) => (window.location.href = "/viewProgress")}
-          >
-            My Challenges in Progress
-          </button>
-          <button
-            className="general-button"
-            onClick={(event) => (window.location.href = "/walloffame")}
-          >
-            Wall of Fame
-          </button>
+          <Link to="/challenge">
+            <button className="general-button">Back to Challenges</button>
+          </Link>
+          <Link to="/viewChallenges">
+            <button className="general-button">My Created Challenges</button>
+          </Link>
+          <Link to="/viewProgress">
+            <button className="general-button">My Progress</button>
+          </Link>
+          <Link to="/walloffame">
+            <button className="general-button">Wall of Fame</button>
+          </Link>
           <br />
           <br />
           {this.state.viewProgress.map((json) => (

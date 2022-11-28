@@ -6,6 +6,7 @@ import axios from "axios";
 import UploadWidget from "../components/uploadWidget";
 import ChallengeTile from "../components/challengeTile";
 import { TailSpin } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const noneBadge = {
   name: "none",
@@ -323,24 +324,15 @@ export default class Challenge extends Component {
             </button>
           </div>
           <div>
-            <button
-              className="general-button"
-              onClick={(event) => (window.location.href = "/viewChallenges")}
-            >
-              My Created Challenges
-            </button>
-            <button
-              className="general-button"
-              onClick={(event) => (window.location.href = "/viewProgress")}
-            >
-              My Challenges in Progress
-            </button>
-            <button
-              className="general-button"
-              onClick={(event) => (window.location.href = "/walloffame")}
-            >
-              Wall of Fame
-            </button>
+            <Link to="/viewChallenges">
+              <button className="general-button">My Created Challenges</button>
+            </Link>
+            <Link to="/viewProgress">
+              <button className="general-button">My Progress</button>
+            </Link>
+            <Link to="/walloffame">
+              <button className="general-button">Wall of Fame</button>
+            </Link>
             <div style={{ display: "inline-block", fontSize: "30px" }}>|</div>
             <button
               className="general-button"
